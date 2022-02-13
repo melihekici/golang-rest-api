@@ -89,7 +89,7 @@ func (red *RedisHandler) post(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Set key-value pair in redis database with expiration of 30 mins
-	err = redisClient.Set(keyValue.Key, keyValue.Value, time.Minute*30).Err()
+	err = redisClient.Set(keyValue.Key, keyValue.Value, time.Minute*120).Err()
 	// If unable to set key-value, return error
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
