@@ -26,6 +26,22 @@ func (m *MongoRecordHandlers) post(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Create a validatior that will check if minCount and maxCount keys are exist in request body
+	countValidator := map[string]int{}
+	json.Unmarshal(bodyBytes, &countValidator)
+	// Check if request body contains minCount, if not return error
+	if _, ok := countValidator["minCount"]; !ok {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("minCount key is missing"))
+		return
+	}
+	// Check if request body contains maxCount, if not return error
+	if _, ok := countValidator["maxCount"]; !ok {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("maxCount key is missing"))
+		return
+	}
+
 	// Define filter struct for mongoDB (will be filled from request body)
 	var filter models.MongoFilter
 
