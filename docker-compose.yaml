@@ -24,5 +24,17 @@ services:
     networks:
       - backend
 
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-conf:/etc/nginx/conf.d
+    depends_on:
+      - web
+    networks:
+      - backend
+
 networks:
   backend:
